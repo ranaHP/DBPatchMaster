@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.delete-icon {
+    color: gray;
+  }
+  
+  .delete-icon:hover {
+    color: red;
+  }

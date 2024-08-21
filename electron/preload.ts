@@ -19,6 +19,10 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
     return ipcRenderer.invoke(channel, ...omit)
   },
 
+  copyFile: (sourcePath: string, destinationPath: string) => ipcRenderer.invoke('file:copy', { sourcePath, destinationPath }),
+  writeFile: (filePath: string, content: string) => ipcRenderer.invoke('file:write', { filePath, content }),
+  deleteFile: (filePath: string) => ipcRenderer.invoke('file:delete', filePath)
+
   // You can expose other APTs you need here.
   // ...
 })

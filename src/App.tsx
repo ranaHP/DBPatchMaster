@@ -13,7 +13,7 @@ import Home from './scenes/Home';
 function App() {
   const mode = useSelector((state: GlobalState) => state.mode);
   const theme: Theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-
+  
   return (
     <div className="app">
       <BrowserRouter>
