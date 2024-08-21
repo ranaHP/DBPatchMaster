@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
-import { Box, Button, InputLabel, Typography, List, ListItem, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Typography, List, ListItem, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FlexBetween from './FlexBetween';
 import fs from 'fs';
 import path from 'path';
-import { Cancel, ClearAll, Close, Menu } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
-import { GlobalState } from '../state';
+import { Close, Menu } from '@mui/icons-material';
+import { useDispatch } from 'react-redux';
+import { setChangedFilesList } from '../state';
+import { changedListI } from '../type';
+// import { useSelector } from 'react-redux';
+// import { GlobalState } from '../state';
 
 type AddChangedFilesProp = {
     title: string
 }
 const AddChangedFiles: React.FC<AddChangedFilesProp> = ({ title, }) => {
-    const state = useSelector((state: { global: GlobalState}) => state.global);
-
+    // const state = useSelector((state: { global: GlobalState}) => state.global);
+    const dispatch = useDispatch();
     const [changedFiles, setChangedFiles] = useState<File[]>([]);
     const [isShowFiles, setIsShowFiles] = useState(false);
 
@@ -21,6 +24,7 @@ const AddChangedFiles: React.FC<AddChangedFilesProp> = ({ title, }) => {
     const handleDrop = (event: React.DragEvent) => {
         event.preventDefault();
         const files = Array.from(event.dataTransfer.files);
+        const changedfilesTemp: changedListI[] = [];
 
         const newFiles = files.map(file => {
             const filePath = file.path; // Get the file's original path
@@ -29,7 +33,12 @@ const AddChangedFiles: React.FC<AddChangedFilesProp> = ({ title, }) => {
             const fileType = fileName_dfn?.split('.').at(-2);
             console.log("🚀 ~ newFiles ~ fileType:", fileType)
             console.log("🚀 ~ newFiles ~ schema:", schema)
-
+            changedfilesTemp.push({
+                name: fileName_dfn as string,
+                path: filePath,
+                fileType: fileType as string,
+                schema: schema as string
+            })
             const fileName = path.basename(filePath);
 
             const destinationDir = path.join('src', 'SamplePatch', 'Patch', '02 New DB Release', 'Build-Scripts', schema as string, title);
@@ -48,6 +57,7 @@ const AddChangedFiles: React.FC<AddChangedFilesProp> = ({ title, }) => {
         }).filter(file => file !== null) as File[]; // Filter out null entries
 
         setChangedFiles((prevFiles) => [...prevFiles, ...newFiles]);
+        dispatch(setChangedFilesList(changedfilesTemp));
     };
 
     const handleRemoveFile = (index: number) => {
@@ -70,10 +80,9 @@ const AddChangedFiles: React.FC<AddChangedFilesProp> = ({ title, }) => {
     };
 
     return (
-        <Box minWidth={'500px'} m={"1rem 0.6rem"}>
+        <Box width={'100%'} >
             <FlexBetween
                 sx={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'start' }}>
-                <InputLabel sx={{ minWidth: '150px', mb: 2, }}>{title?.toLocaleUpperCase()} </InputLabel>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }} flexGrow={1}>
 
@@ -82,7 +91,7 @@ const AddChangedFiles: React.FC<AddChangedFilesProp> = ({ title, }) => {
                             border: '2px dashed #ccc',
                             padding: '20px',
                             width: '100%',
-                            maxWidth: '400px',
+                            maxWidth: '450px',
                             textAlign: 'center',
                             mb: 2
                         }}
@@ -115,13 +124,13 @@ const AddChangedFiles: React.FC<AddChangedFilesProp> = ({ title, }) => {
                             </Box>
                         </FlexBetween>
                     </Box>
-                    {isShowFiles &&  <Button variant='contained' color='error'  size='small'
+                    {/* {isShowFiles &&  <Button variant='contained' color='error'  size='small'
                                     onClick={() => handleClearFiles()} sx={{ mb: 2 }} 
                                     startIcon={<DeleteIcon />} titleAccess='Clear'>
                         Clear All Files
                     </Button>
-                    }
-                    {isShowFiles && changedFiles.length > 0 && (
+                    } */}
+                    {/* {isShowFiles && changedFiles.length > 0 && (
                         <List sx={{ width: '100%', maxWidth: '400px', mb: 2 }} disablePadding>
                             {changedFiles.map((file, index) => (
                                 <ListItem
@@ -140,7 +149,7 @@ const AddChangedFiles: React.FC<AddChangedFilesProp> = ({ title, }) => {
                                 </ListItem>
                             ))}
                         </List>
-                    )}
+                    )} */}
 
                     {/* <Button variant="contained" color="primary" onClick={handleCreateSQLRunFile} disabled={changedFiles.length === 0}>
                         Create SQL Run File

@@ -16,13 +16,11 @@ const TopBar: React.FC<TopBarProps> = ({ appName, createdBy }) => {
         position: 'static',
         background: theme.palette.background.default,
         boxShadow: 'none',
-        py: 1,
-        borderBottom: `1px solid ${theme.palette.divider}`,
-        
+        my: 1        
       }}
     >
-      <Toolbar sx={{ justifyContent: 'space-between' }}>
-        <Box>
+      <Toolbar sx={{ justifyContent: 'space-between', backgroundColor: '#f8f8f8' }} >
+        <Box >
           <Typography
             variant="h6"
             sx={{ fontWeight: 'bold', color: theme.palette.text.primary }}

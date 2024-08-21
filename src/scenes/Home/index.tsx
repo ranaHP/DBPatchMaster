@@ -9,7 +9,7 @@ import BuildScriptChanges from '../../components/BuildScriptChanges';
 const Home = () => {
   // const state = useSelector((state: { global: GlobalState}) => state.global);
   return (
-    <Box m="1rem 1.5rem">
+    <Box m="1rem 1.5rem" minWidth={'600px'}>
       <PatchVersionForm />
       {/* <AddChangesForm/> */}
       <BuildScriptChanges/>

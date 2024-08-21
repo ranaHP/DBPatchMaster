@@ -34,7 +34,9 @@ function createWindow() {
       nodeIntegration: true,   // Enable Node.js integration
       contextIsolation: false, // Disable context isolation
     },
-  autoHideMenuBar  : true  
+  autoHideMenuBar  : true,  
+  width: 1200,
+  height: 800,
   })
 
   // Test active push message to Renderer-process.

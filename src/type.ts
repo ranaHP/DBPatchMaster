@@ -1,0 +1,1 @@
+export type changedListI = { name: string; path: string; fileType: string; schema: string; }

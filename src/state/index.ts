@@ -1,18 +1,20 @@
+import { changedListI } from './../type';
 import { createSlice } from "@reduxjs/toolkit";
 
-// Define the initial state with a TypeScript interface
 export interface GlobalState {
   mode: "light" | "dark";
   userId: string;
   brokerage: string;
   version: string;
+  changedFilesList: changedListI[]
 }
 
 const initialState: GlobalState = {
   mode: "dark",
   userId: "63701cc1f03239b7f700000e",
   brokerage: "SFC",
-  version: ''
+  version: '',
+  changedFilesList: []
 };
 
 export const globalSlice = createSlice({
@@ -23,24 +25,20 @@ export const globalSlice = createSlice({
       state.mode = state.mode === "light" ? "dark" : "light";
     },
     setBrokerage: (state, action) => {
-      const newBrokerage = action.payload; // Extract new brokerage value from payload
-      state.brokerage = newBrokerage; // Update state with new value
+      const newBrokerage = action.payload;
+      state.brokerage = newBrokerage;
     },
     setVersion: (state, action) => {
-      const newVersion = action.payload; // Extract new brokerage value from payload
-      state.version = newVersion; // Update state with new value
+      const newVersion = action.payload;
+      state.version = newVersion;
+    },
+    setChangedFilesList: (state, action) => {
+      const changedFilesList = action.payload;
+      state.changedFilesList = changedFilesList;
     },
   },
 });
 
-// Export both actions so they can be used in components
-export const { setMode, setBrokerage,setVersion } = globalSlice.actions;
+export const { setMode, setBrokerage, setVersion, setChangedFilesList } = globalSlice.actions;
 
 export default globalSlice.reducer;
-// {
-//   "global": {
-//       "mode": "dark",
-//       "userId": "63701cc1f03239b7f700000e",
-//       "brokerage": "HSBC"
-//   }
-// }
